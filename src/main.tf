@@ -17,6 +17,10 @@ provider "google" {
     zone        = var.zone
 }
 
+module "artifact-registry" {
+    source = "./modules/artifact-registry"
+}
+
 module "cloud-run" {
     source      = "./modules/cloud-run"
 }
