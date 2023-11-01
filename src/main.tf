@@ -1,8 +1,11 @@
 terraform {
     backend "gcs" {
-        bucket  = "edival-terraform-tfstate"
+        bucket  = "edival-402305-bucket"
         prefix  = "terraform/state"
     }
+    # backend "local" {
+    #     path = "./terraform.tfstate"
+    # }
     required_providers {
         google = {
             source  = "hashicorp/google"
@@ -18,7 +21,7 @@ provider "google" {
 }
 
 module "artifact-registry" {
-    source = "./modules/artifact-registry"
+    source      = "./modules/artifact-registry"
 }
 
 module "cloud-run" {
@@ -27,4 +30,8 @@ module "cloud-run" {
 
 module "storage" {
     source      = "./modules/storage"
+}
+
+module "vertexai-notebook" {
+    source      = "./modules/vertexai-notebook"
 }
