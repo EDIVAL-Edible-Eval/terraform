@@ -5,23 +5,14 @@ resource "google_project_service" "notebooks" {
     disable_on_destroy = false
 }
 
-# reference: https://github.com/terraform-google-modules/terraform-docs-samples/blob/main/vertex_ai/managed_notebooks_runtime/main.tf
-resource "google_notebooks_runtime" "runtime" {
-    name        = "edival-notebooks-runtime"
-    location    = var.region
-    access_config {
-        access_type     = "SERVICE_ACCOUNT"
-        runtime_owner   = "932830200046-compute@developer.gserviceaccount.com"
-    }
-    virtual_machine {
-        virtual_machine_config {
-        machine_type    = "n1-standard-4"
-        data_disk {
-            initialize_params {
-            disk_size_gb    = "100"
-            disk_type       = "PD_STANDARD"
-            }
-        }
-        }
+# reference: https://github.com/terraform-google-modules/terraform-docs-samples/blob/main/vertex_ai/user_managed_notebooks_instance/main.tf
+resource "google_notebooks_instance" "basic_instance" {
+    name        = "edival-managed-notebooks"
+    location    = var.zone
+    machine_type = "c2-standard-8"
+
+    vm_image {
+        project      = "deeplearning-platform-release"
+        image_family = "tf-ent-2-9-cu113-notebooks"
     }
 }
